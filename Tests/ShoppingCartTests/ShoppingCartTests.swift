@@ -2,14 +2,32 @@ import XCTest
 @testable import ShoppingCart
 
 final class ShoppingCartTests: XCTestCase {
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct
-        // results.
-        XCTAssertEqual(ShoppingCart().text, "Hello, World!")
+    func testAddProductsToTheShoppingCart() {
+        // Given: 
+        // An empty shopping cart
+        var shoppingCart = ShoppingCart()
+
+        // And a product, Dove Soap with a unit price of 39.99
+        let product = Product(name: "Dove Soap", unitPrice: 39.99)
+
+        // When:
+        // The user adds 5 Dove Soaps to the shopping cart
+        shoppingCart.add(product, quantity: 5)
+
+        // Then:
+        // The shopping cart should contain 5 Dove Soaps each with a unit price of 39.99
+        XCTAssertEqual(shoppingCart.products, [
+            Product(name: "Dove Soap", unitPrice: 39.99), 
+            Product(name: "Dove Soap", unitPrice: 39.99), 
+            Product(name: "Dove Soap", unitPrice: 39.99), 
+            Product(name: "Dove Soap", unitPrice: 39.99), 
+            Product(name: "Dove Soap", unitPrice: 39.99)
+        ])
+        // And the shopping cart’s total price should equal 199.95
+        XCTAssertEqual(shoppingCart.totalPrice, 199.95)
     }
 
     static var allTests = [
-        ("testExample", testExample),
+        ("testAddProductsToTheShoppingCart", testAddProductsToTheShoppingCart),
     ]
 }
