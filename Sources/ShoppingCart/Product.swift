@@ -10,7 +10,7 @@ struct Product {
   }
 }
 
-extension Product: Equatable {
+extension Product: Equatable, Hashable {
   public static func == (lhs: Product, rhs: Product) -> Bool {
     return lhs.name == rhs.name && lhs.unitPrice.rounded == rhs.unitPrice.rounded
   }

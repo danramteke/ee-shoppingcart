@@ -1,19 +1,33 @@
 import Foundation
 
 struct ShoppingCart {
-    var products: [Product] = []
+    var taxRate: Decimal? = nil
+    var contents: [Product: Int] = [:]
 
     var totalPrice: Decimal {
-        let subtotal = products
-            .map { $0.unitPrice }
-            .reduce(0.0, +)
+        return (subtotal + totalSalesTax).rounded
+    }
 
-        return subtotal.rounded
+    var totalSalesTax: Decimal {
+        guard let taxRate = taxRate else {
+            return 0.0
+        }
+
+        return (subtotal * taxRate).rounded
+    }
+
+    var subtotal: Decimal {
+        return contents
+            .map { entry in entry.key.unitPrice * Decimal(entry.value) }
+            .reduce(0.0, +)
+            .rounded
     }
 
     mutating func add(_ product: Product, quantity: Int) {
-        (0 ..< quantity).forEach { _ in
-            products.append(product)
+        if let currentQuantity = contents[product] {
+            contents[product] = currentQuantity + quantity
+        } else {
+            contents[product] = quantity
         }
     }
 }
